@@ -27,6 +27,8 @@ router.post("/login", useControler.loginUsuario);
 
 router.post("/sendemail/:id", salesControler.enviarEmailVenda);
 
+router.put("/resetpassword/:id", useControler.resetarSenha);
+
 router.use(authMiddleware);
 
 router.post("/register", useControler.criarUsuario);
@@ -50,6 +52,5 @@ router.post("/logout", (req, res) => {
   res.json({ message: "Logout bem-sucedido" });
 });
 
-router.put("/resetpassword/:id", useControler.resetarSenha);
 
 module.exports = router;
