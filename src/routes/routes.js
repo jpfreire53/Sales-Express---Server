@@ -41,6 +41,8 @@ router.get("/home/user", useControler.listarUsuarios);
 
 router.get("/home/sales", salesControler.listarVendas);
 
+router.get("/home/sales/:id", salesControler.listarVendasPorUserId);
+
 router.post("/registersales", salesControler.registrarVenda);
 
 router.put("/edituser/:id", useControler.editarUsuario);

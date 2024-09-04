@@ -12,14 +12,11 @@ const salesControler = {
       const allsales = await salesDao.getSales();
       var idLastSale = 0;
       if (
-        sales.name == null ||
         sales.name == "" ||
-        sales.cpf == null ||
         sales.cpf == "" ||
-        sales.email == null ||
         sales.email == "" ||
         sales.value == "" ||
-        sales.value == null
+        sales.users_id == ""
       ) {
         res.status(400).json({ message: "Há campos em branco.", type: "e" });
       } else {
@@ -57,6 +54,7 @@ const salesControler = {
       res.status(500).json({ error: "Erro ao registrar a venda.", type: "e" });
     }
   },
+
   async listarVendas(req, res) {
     try {
       const sales = await salesDao.getSales();
@@ -71,11 +69,35 @@ const salesControler = {
         });
       }
 
-      res.json({ sales: salesWithItems });
+      res.status(200).json({ sales: salesWithItems });
     } catch (error) {
       res.status(500).json({ error: "Erro ao listar as vendas.", type: "e" });
     }
   },
+
+  async listarVendasPorUserId(req, res) {
+    try {
+      const { id } = req.params
+      const sales = await salesDao.getSalesByUserId(id);
+      const salesWithItems = [];
+
+      if (sales !== undefined) {
+        console.log(sales)
+        for (const sale of sales) {
+          let items = await itemsDao.getItemsBySaleId(sale);  
+          salesWithItems.push({
+            sale: sale,
+            items: items,
+          });
+        }
+      }
+
+      res.status(200).json({ sales: salesWithItems });
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao listar as vendas.", type: "e" });
+    }
+  },
+
   async enviarEmailVenda(req, res) {
     try {
       const { id } = req.params;

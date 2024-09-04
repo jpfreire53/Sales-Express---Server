@@ -4,8 +4,8 @@ const salesDao = {
   async insertSales(sales) {
     await DBopen.openDB().then((db) => {
       db.run(
-        "INSERT INTO sales (name, cpf, email, value, moneyChange) VALUES (?, ?, ?, ?, ?)",
-        [sales.name, sales.cpf, sales.email, sales.value, sales.moneyChange]
+        "INSERT INTO sales (name, cpf, email, value, moneyChange, users_id) VALUES (?, ?, ?, ?, ?, ?)",
+        [sales.name, sales.cpf, sales.email, sales.value, sales.moneyChange, sales.users_id]
       );
     });
   },
@@ -27,6 +27,15 @@ const salesDao = {
         .then((res) => res);
     });
   },
+
+  async getSalesByUserId(id) {
+    return DBopen.openDB().then((db) => {
+      return db
+        .all("SELECT * FROM sales WHERE users_id = ?", [id])
+        .then((res) => res);
+    });
+  },
+
   async getLastSale() {
     return DBopen.openDB().then((db) => {
       return db

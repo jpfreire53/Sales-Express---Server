@@ -220,7 +220,7 @@ const useControler = {
       }
 
       const allUsers = await userDao.getUsers();
-      const userToResetPassword = allUsers.find((user) => user.id == id);
+      const userToResetPassword = allUsers.find((user) => user.id == id || user.user == id);
 
       if (!userToResetPassword) {
         return res
@@ -228,7 +228,7 @@ const useControler = {
           .json({ message: "Usuário não encontrado", type: "e" });
       }
 
-      userToResetPassword.password = newPassword;
+      userToResetPassword.password = btoa(newPassword);
       await userDao.updatePassword(userToResetPassword);
 
       res

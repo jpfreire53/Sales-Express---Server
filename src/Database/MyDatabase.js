@@ -7,7 +7,7 @@ const Database = {
         "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, user TEXT, name TEXT, company TEXT, cnpj TEXT, password TEXT, userType TEXT, role TEXT)"
       );
       db.exec(
-        "CREATE TABLE IF NOT EXISTS sales (id INTEGER PRIMARY KEY, name TEXT, cpf TEXT, email TEXT, value DECIMAL(10,2), moneyChange DECIMAL(10,2))"
+        "CREATE TABLE IF NOT EXISTS sales (id INTEGER PRIMARY KEY, name TEXT, cpf TEXT, email TEXT, value DECIMAL(10,2), moneyChange DECIMAL(10,2), users_id INTEGER NOT NULL, FOREIGN KEY(users_id) REFERENCES users(id))"
       );
       db.exec(
         "CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY, description TEXT, sales_id INTEGER NOT NULL , FOREIGN KEY(sales_id) REFERENCES sales(id))"
