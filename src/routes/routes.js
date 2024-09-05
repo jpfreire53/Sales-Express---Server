@@ -27,7 +27,12 @@ router.post("/login", useControler.loginUsuario);
 
 router.post("/sendemail/:id", salesControler.enviarEmailVenda);
 
-router.put("/resetpassword/:id", useControler.resetarSenha);
+router.put("/forgotpassword/:id", useControler.resetarSenha);
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.json({ message: "Logout bem-sucedido" });
+});
 
 router.use(authMiddleware);
 
@@ -49,10 +54,8 @@ router.put("/edituser/:id", useControler.editarUsuario);
 
 router.delete("/deleteuser", useControler.deletarUsuario);
 
-router.post("/logout", (req, res) => {
-  res.clearCookie("token");
-  res.json({ message: "Logout bem-sucedido" });
-});
+router.put("/resetpassword/:id", useControler.resetarSenha);
+
 
 
 module.exports = router;

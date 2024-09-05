@@ -2,7 +2,6 @@ const userModel = require("../models/userModel.js");
 const userDao = require("../dao/userDao.js");
 const jwt = require("jsonwebtoken");
 const SECRET = "750139581985";
-const authMiddleware = require("../services/authMiddleware.js");
 
 const useControler = {
   async criarUsuario(req, res) {
