@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const useControler = require("../controler/userControler.js");
-const salesControler = require("../controler/salesControler.js");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const authMiddleware = require("../services/authMiddleware.js");
 
-router.use(cookieParser());
+const useControler = require("../controler/userControler.js");
+const salesControler = require("../controler/salesControler.js");
+const productControler = require("../controler/productControler.js");
 
+router.use(cookieParser());
 router.use(
   cors({
     origin: "http://localhost:3001",
@@ -34,6 +35,12 @@ router.post("/logout", (req, res) => {
   res.json({ message: "Logout bem-sucedido" });
 });
 
+router.post("/product/register", productControler.registrarProduto);
+
+router.get("/product/listar", productControler.listarProdutos);
+
+router.get("/product/listar/:id", productControler.listarProdutosPorId);
+
 router.use(authMiddleware);
 
 router.post("/register", useControler.criarUsuario);
@@ -55,7 +62,6 @@ router.put("/edituser/:id", useControler.editarUsuario);
 router.delete("/deleteuser", useControler.deletarUsuario);
 
 router.put("/resetpassword/:id", useControler.resetarSenha);
-
 
 
 module.exports = router;

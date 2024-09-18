@@ -4,15 +4,27 @@ const productDao = require("../dao/productDao");
 const productControler = {
     async registrarProduto(req, res) {
         try {
-            const product = new productModel(req.body.productModel);
+            const product = new productModel(req.body);
             const allProducts = await productDao.getProducts();
 
             if (allProducts !== undefined && allProducts.length > 0) {
-                allProducts.map((productAll) => productAll.sku !== product.sku);
-            }
+                const isProdutctExist = allProducts.find((productAll) => productAll.sku === product.sku);
+                if (isProdutctExist.sku === product.sku) {
+                    return res.status(400).json({
+                        message: "Produto já cadastrado no banco.",
+                        type: "e",
+                      }); 
+                } else {
+                    await productDao.insertProduct(product);
 
+                    return res.status(200).json({
+                        message: "Produto criado com sucesso.",
+                        type: "s",
+                      });
+                }
+            } 
         } catch (error) {
-            res.status(500).json({ error: "Erro ao criar o produto.", type: "e" });
+            return res.status(500).json({ error: "Erro ao criar o produto.", type: "e" });
         }
     },
 
