@@ -6,10 +6,10 @@ const productControler = {
         try {
             const product = new productModel(req.body);
             const allProducts = await productDao.getProducts();
-
-            if (allProducts !== undefined && allProducts.length > 0) {
+            if (product !== undefined && allProducts.length > 0) {
                 const isProdutctExist = allProducts.find((productAll) => productAll.sku === product.sku);
-                if (isProdutctExist.sku === product.sku) {
+                console.log(isProdutctExist)
+                if (isProdutctExist !== undefined && isProdutctExist.sku === product.sku) {
                     return res.status(400).json({
                         message: "Produto já cadastrado no banco.",
                         type: "e",
