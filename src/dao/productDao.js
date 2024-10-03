@@ -9,6 +9,14 @@ const productDao = {
             )
         })
     },
+    async insertProductId(product) {
+        await DBopen.openDB().then((db) => {
+            db.run(
+                "INSERT INTO products (id, name, description, sku) VALUES (?, ?, ?)",
+                [product.id, product.name, product.description, product.sku]
+            )
+        })
+    },
 
     async getProducts() {
         return DBopen.openDB().then((db) => {
