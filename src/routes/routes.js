@@ -35,13 +35,13 @@ router.post("/logout", (req, res) => {
   res.json({ message: "Logout bem-sucedido" });
 });
 
+router.use(authMiddleware);
+
 router.post("/product/register", productControler.registrarProduto);
 
 router.get("/product/listar", productControler.listarProdutos);
 
 router.get("/product/listar/:id", productControler.listarProdutosPorId);
-
-router.use(authMiddleware);
 
 router.post("/register", useControler.criarUsuario);
 

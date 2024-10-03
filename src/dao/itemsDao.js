@@ -1,12 +1,12 @@
 const DBopen = require("../ConfigDB.js");
 
 const itemsDao = {
-  async insertItems(saleId, items, productId) {
+  async insertItems(saleId, items, products_id) {
     await DBopen.openDB().then((db) => {
       db.run("INSERT INTO items (description, sales_id, products_id) VALUES (?, ?, ?)", [
         items.description,
         saleId,
-        productId
+        products_id
       ]);
       db.close;
     });

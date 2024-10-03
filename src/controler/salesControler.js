@@ -1,14 +1,17 @@
 const salesModel = require("../models/salesModel.js");
 const salesDao = require("../dao/salesDao.js");
 const itemsDao = require("../dao/itemsDao.js");
+const productDao = require("../dao/productDao.js");
 const nodemailer = require("nodemailer");
 const pdf = require("html-pdf");
+const { v4: uuidv4 } = require('uuid');
 
 const salesControler = {
   async registrarVenda(req, res) {
     try {
       const sales = new salesModel(req.body.salesModel);
       const items = req.body.items;
+      console.log(req.body)
       const allsales = await salesDao.getSales();
       var idLastSale = 0;
       if (
@@ -26,7 +29,17 @@ const salesControler = {
           idLastSale = idLastSale + 1;
 
           for (var i = 0; i < items.length; i++) {
-            await itemsDao.insertItems(idLastSale, items[i]);
+            const id = uuidv4()
+
+            let product = {
+              id: items[i].products_id,
+              name: items[i].description,
+              description: items[i].description,
+              sku: id
+            }
+
+            await productDao.insertProduct(product);
+            await itemsDao.insertItems(idLastSale, items[i], id);
           }
 
           res.status(201).json({
@@ -40,7 +53,16 @@ const salesControler = {
           const lastSale = await salesDao.getLastSale();
           idLastSale = idLastSale + 1;
           for (var i = 0; i < items.length; i++) {
-            await itemsDao.insertItems(idLastSale, items[i]);
+            const id = uuidv4()
+            let product = {
+              id: items[i].products_id,
+              name: items[i].description,
+              description: items[i].description,
+              sku: id
+            }
+
+            await productDao.insertProduct(product);
+            await itemsDao.insertItems(idLastSale, items[i], id);
           }
           res.status(201).json({
             message: "Venda criada com sucesso.",
@@ -82,7 +104,6 @@ const salesControler = {
       const salesWithItems = [];
 
       if (sales !== undefined) {
-        console.log(sales)
         for (const sale of sales) {
           let items = await itemsDao.getItemsBySaleId(sale);  
           salesWithItems.push({
