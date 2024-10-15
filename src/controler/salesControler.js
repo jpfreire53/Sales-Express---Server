@@ -11,7 +11,6 @@ const salesControler = {
     try {
       const sales = new salesModel(req.body.salesModel);
       const items = req.body.items;
-      console.log(req.body)
       const allsales = await salesDao.getSales();
       var idLastSale = 0;
       if (
@@ -19,6 +18,7 @@ const salesControler = {
         sales.cpf == "" ||
         sales.email == "" ||
         sales.value == "" ||
+        sales.date == "" ||
         sales.users_id == ""
       ) {
         res.status(400).json({ message: "Há campos em branco.", type: "e" });

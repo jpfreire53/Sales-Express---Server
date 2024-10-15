@@ -6,6 +6,7 @@ class salesModel {
     this.email = sales.email;
     this.value = sales.value;
     this.moneyChange = sales.moneyChange;
+    this.date = sales.date;
     this.users_id = sales.users_id;
   }
 }
