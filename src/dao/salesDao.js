@@ -4,7 +4,7 @@ const salesDao = {
   async insertSales(sales) {
     await DBopen.openDB().then((db) => {
       db.run(
-        "INSERT INTO sales (name, cpf, email, value, moneyChange, date, users_id) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT INTO sales (name, cpf, email, value, moneyChange, date, users_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
         [sales.name, sales.cpf, sales.email, sales.value, sales.moneyChange, sales.date, sales.users_id]
       );
     });

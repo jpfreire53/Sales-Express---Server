@@ -10,6 +10,7 @@ const salesControler = {
   async registrarVenda(req, res) {
     try {
       const sales = new salesModel(req.body.salesModel);
+      console.log(sales)
       const items = req.body.items;
       const allsales = await salesDao.getSales();
       var idLastSale = 0;
